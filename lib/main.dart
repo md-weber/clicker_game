@@ -1,4 +1,5 @@
 import 'package:clickergame/clicker-game.dart';
+import 'package:flame/flame.dart';
 import 'package:flame/util.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -11,4 +12,8 @@ Future<void> main() async {
   Util flameUtil = Util();
   flameUtil.fullScreen();
   flameUtil.setPortraitUpOnly();
+
+  Flame.images.loadAll([
+    "shovel.jpg",
+  ]);
 }

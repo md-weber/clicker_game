@@ -1,11 +1,10 @@
 import 'dart:ui';
 
+import 'package:clickergame/components/copper.dart';
 import 'package:clickergame/components/dig.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/gestures.dart';
-import 'package:flame/position.dart';
-import 'package:flame/text_config.dart';
 import 'package:flame/time.dart';
 import 'package:flutter/gestures.dart';
 
@@ -17,14 +16,14 @@ class ClickerGame extends Game with TapDetector {
 
   double digProgress = 0;
 
-  // Copper values
-  double copperValue = 0;
-  double copperYield = 1;
+  Copper copper = Copper();
 
   ClickerGame() {
-     initializeBackgroundMusic();
+    initializeBackgroundMusic();
+    initializeImages();
     interval = Timer(1, repeat: true, callback: () {});
     interval.start();
+    digButton = Dig(this);
   }
 
   @override
@@ -35,17 +34,10 @@ class ClickerGame extends Game with TapDetector {
 
   @override
   void render(Canvas canvas) {
-    String copperText = "Copper Ore: $copperValue";
-
     Rect bgRect = Rect.fromLTWH(0, 0, screenSize.width, screenSize.height);
     Paint bgPaint = Paint()..color = Color(0xffdbcfba);
     canvas.drawRect(bgRect, bgPaint);
-
-    digButton =
-        Dig(this, screenSize.width / 2 - 160, screenSize.height / 2 - 160)
-          ..render(canvas);
-    TextConfig(fontSize: 16.0)
-      ..render(canvas, copperText, Position(screenSize.width / 2 - 315, 20));
+    digButton.render(canvas);
   }
 
   @override
@@ -61,7 +53,7 @@ class ClickerGame extends Game with TapDetector {
 
   Future<void> initializeBackgroundMusic() async {
     const String backgroundLocation = "bgm";
-    int songNumber = 1;
+    int songNumber = 3;
 
     Flame.audio.audioCache.loadAll([
       "bgm/song1.mp3",
@@ -72,4 +64,6 @@ class ClickerGame extends Game with TapDetector {
 
     Flame.audio.loop("$backgroundLocation/song$songNumber.mp3");
   }
+
+  void initializeImages() {}
 }
